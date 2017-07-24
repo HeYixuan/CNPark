@@ -1,0 +1,47 @@
+//group 'org.springframe'
+//version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+archivesBaseName = 'entity'
+buildDir = 'target'
+
+bootRepackage{
+    enabled = false
+}
+
+buildscript {
+
+    ext {
+        springBootVersion = '1.5.3.RELEASE'
+        oauth2Version = '2.1.0.RELEASE'
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    //testCompile group: 'junit', name: 'junit', version: '4.12'
+}

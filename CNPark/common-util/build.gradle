@@ -1,0 +1,53 @@
+//group 'org.springframe'
+//version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+archivesBaseName = 'common-util'
+buildDir = 'target'
+
+bootRepackage{
+    enabled = false
+}
+
+buildscript {
+
+    ext {
+        springBootVersion = '1.5.3.RELEASE'
+        oauth2Version = '2.1.0.RELEASE'
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.apache.commons:commons-lang3:3.5"
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+
+    compile "com.thoughtworks.xstream:xstream:1.4.10"
+
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    //testCompile group: 'junit', name: 'junit', version: '4.12'
+}
