@@ -19,7 +19,7 @@ bootRepackage{
 buildscript {
 
     ext {
-        springBootVersion = '1.5.3.RELEASE'
+        springBootVersion = '1.5.4.RELEASE'
         oauth2Version = '2.1.0.RELEASE'
     }
 

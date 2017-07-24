@@ -21,7 +21,7 @@ subprojects {
 
     //定义版本号
     ext {
-        springBootVersion = '1.5.3.RELEASE'
+        springBootVersion = '1.5.4.RELEASE'
     }
 
     repositories {
