@@ -436,8 +436,21 @@ public class DateUtils {
     }
 
 
+    public static String addMinute(int minute) throws ParseException {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(calendar.HOUR_OF_DAY, 00);
+        calendar.set(calendar.MINUTE, minute);
+        calendar.set(calendar.SECOND, 00);
+        return timeFormat.format(calendar.getTime());   //这个时间就是日期往后推一天的结果
+    }
+
+
 
     public static void main(String [] args) throws ParseException {
+
+        String d = addMinute(10);
+        System.out.println("date:"+d);
+
         Date date = add(5);
         Date date1 = add(5, "2017-06-10");
         Date date2 = add(1, new Date(), true);

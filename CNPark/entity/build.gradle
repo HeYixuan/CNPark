@@ -24,11 +24,7 @@ buildscript {
     }
 
     repositories {
-        mavenLocal()
-        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-        maven { url "http://repo.spring.io/snapshot" }
-        maven { url "http://repo.spring.io/milestone" }
-        jcenter()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
     }
 
     dependencies {
@@ -43,6 +39,8 @@ repositories {
 
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: ${springBootVersion}
-    //testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(":common-util")
+    compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
+
+
 }

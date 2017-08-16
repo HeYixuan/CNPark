@@ -48,9 +48,11 @@ subprojects {
         //all*.exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
 
+
     dependencies {
         // 通用依赖
         //compile()
+        compile "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
 
 
         // 依赖maven中不存在的jar
