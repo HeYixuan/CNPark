@@ -93,42 +93,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             throw new ServletException("Invalid token error.");
         }
 
-
-
-
-
-        /*Authentication authentication = new UsernamePasswordAuthenticationToken()
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        filterChain.doFilter(request, response);
-        SecurityContextHolder.getContext().setAuthentication(null);*/
-        /*UserDetails userDetails = springSecurityService.loadUserByUsername("admin");
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                userDetails, "admin", userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                request));
-        logger.info("authenticated user admin, setting security context");
-        SecurityContextHolder.getContext().setAuthentication(authentication);*/
-
-
-        /*if ("OPTIONS".equals(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            return;
-        }*/
-
-        /*if (StringUtils.isEmpty(header) || !header.startsWith(TOKEN_HEAD)){
-            logger.error("Request header X-API-TOKEN is empty");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }*/
-        // 校验平台和接口版本号，校验平台取值
-        /*if(StringUtils.isEmpty(version) || StringUtils.isEmpty(device) || !MobilePlatform.contains(device)){
-            logger.error("Request header X-Version or X-Device is empty");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }*/
-        //final String token = HEADER.substring(7);
-
-
     }
 
 }
