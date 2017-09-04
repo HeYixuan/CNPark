@@ -24,6 +24,15 @@ subprojects {
         springBootVersion = '1.5.4.RELEASE'
     }
 
+    //def env = System.getProperty("profile") ?: "dev"
+    //def res = env == "dev" ? "resources" : "profile/$env"
+    /*sourceSets {
+        main {
+            resources {
+                srcDirs = ["src/main/resources", "src/main/$res"]
+            }
+        }
+    }*/
     repositories {
         mavenLocal()
         maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
@@ -46,13 +55,30 @@ subprojects {
         //all*.exclude group: 'commons-httpclient'
         //all*.exclude group: 'commons-logging'
         //all*.exclude group: 'commons-beanutils', module: 'commons-beanutils'
+        //all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        //all*.exclude module: 'org.slf4j'
+        //all*.exclude module: "slf4j-log4j12"
+        //all*.exclude module: "log4j-api"
+        //all*.exclude module: "log4j-core"
+        //all*.exclude module: "log4j-slf4j-impl"
+        //all*.exclude module: 'spring-boot-starter-logging'
+        //all*.exclude module: "logback-classic"
     }
 
 
     dependencies {
         // 通用依赖
         //compile()
-        compile "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
+        compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+        compile "org.springframework.boot:spring-boot-starter-security:1.5.4.RELEASE"
+        compile "org.springframework.security.oauth:spring-security-oauth2:1.5.4.RELEASE"
+        compile "org.springframework.boot:spring-boot-starter-data-redis:1.5.4.RELEASE"
+        compile "org.springframework.security:spring-security-jwt:1.0.8.RELEASE"
+        compile  "org.springframework.boot:spring-boot-starter-jdbc:1.5.4.RELEASE"
+        compile group: 'io.springside', name: 'springside-utils', version: '5.0.0-RC1'
+        //compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '1.5.4.RELEASE'
+        //compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        //compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
 
         // 依赖maven中不存在的jar

@@ -1,15 +1,16 @@
 package org.springframe.domain.system;
 
 import org.springframe.core.SerializableModel;
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
-public class SystemUser extends SerializableModel implements UserDetails {
-
+public class SystemUser extends SerializableModel implements UserDetails,CredentialsContainer {
     /**
      * 编号
      */
@@ -60,12 +61,9 @@ public class SystemUser extends SerializableModel implements UserDetails {
      */
     private Date lastTime;
 
-    /**
-     * 登录次数
-     */
     private Integer attempts;
 
-    /********************************************getter setter**********************************************/
+    private Collection<? extends GrantedAuthority> authorities;
 
     /**
      * 获取编号
@@ -102,6 +100,7 @@ public class SystemUser extends SerializableModel implements UserDetails {
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
     }
+
 
     /**
      * 获取用户密码
@@ -231,9 +230,12 @@ public class SystemUser extends SerializableModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
 
     /**
      * 获取账户是否过期
@@ -272,8 +274,11 @@ public class SystemUser extends SerializableModel implements UserDetails {
     }
 
 
+    @Override
+    public void eraseCredentials() {
 
-    /********************************************constructor**********************************************/
+    }
+
 
     public SystemUser() {
     }
@@ -292,5 +297,40 @@ public class SystemUser extends SerializableModel implements UserDetails {
         this.attempts = attempts;
     }
 
+    public SystemUser(Integer id, String username, String password, boolean enabled,
+                boolean accountNonExpired, boolean credentialsNonExpired,
+                boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
 
+        if (((username == null) || "".equals(username)) || (password == null)) {
+            throw new IllegalArgumentException(
+                    "Cannot pass null or empty values to constructor");
+        }
+
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.authorities = authorities;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "SystemUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone=" + phone +
+                ", accountNonExpired=" + accountNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", enabled=" + enabled +
+                ", lastTime=" + lastTime +
+                ", attempts=" + attempts +
+                '}';
+    }
 }
