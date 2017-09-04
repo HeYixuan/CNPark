@@ -50,7 +50,7 @@ jwt:
   header: X-API-TOKEN
   secret: secret
   issuer: 15517551511@126.com
-  expiration: 7200
+  expiration: 1800   #Token有效期30分钟
 
 
 logging:

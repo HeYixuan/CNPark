@@ -25,11 +25,11 @@ import static java.lang.System.currentTimeMillis;
 public class JwtTokenUtil {
 
     @Value("${jwt.issuer}")
-    private static String issuer;
+    private String issuer;
     @Value("${jwt.secret}")
-    private static String secret;
+    private String secret;
     @Value("${jwt.expiration}")
-    private static Long expiration;
+    private Long expiration;
 
     /**
      * Tries to parse specified String as a JWT token. If successful, returns User object with username, id and role prefilled (extracted from token).
@@ -38,39 +38,19 @@ public class JwtTokenUtil {
      * @param token the JWT token to parse
      * @return the Claims object extracted from specified token or null if a token is invalid.
      */
-    public static Claims parseToken(String token) {
-        Claims claims = Jwts.parser()
-                .requireIssuer(issuer)
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims;
-    }
-
-    public Date createExpirationDate(){
-        return new Date(System.currentTimeMillis() + expiration * 1000);
-    }
-
-    public static Date getExpirationDate(String token) {
-        Date expiration;
+    public Claims parseToken(String token) {
+        Claims claims;
         try {
-            final Claims claims = parseToken(token);
-            expiration = claims.getExpiration();
-        } catch (Exception e) {
-            expiration  = null;
+            claims = Jwts.parser()
+                    .requireIssuer(issuer)
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e){
+            claims = null;
         }
-        return expiration;
-    }
 
-    public static Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDate(token);
-        return expiration.before(new Date());
-    }
-
-    public Boolean validateToken(String token, UserDetails info) {
-        final Claims claims = parseToken(token);
-        final String username = claims.getSubject();
-        return (username.equals(info.getUsername()) && !isTokenExpired(token));
+        return claims;
     }
 
     /**
@@ -95,6 +75,68 @@ public class JwtTokenUtil {
     }
 
     /**
+     * 获取用户名
+     * @param token
+     * @return
+     */
+    public String getUsername(String token) {
+        String username;
+        try {
+            final Claims claims = parseToken(token);
+            username = claims.getSubject();
+        }catch (Exception e){
+            username = null;
+        }
+        return username;
+    }
+
+    /**
+     * 生成过期时间
+     * @return
+     */
+    public Date createExpirationDate(){
+        return new Date(System.currentTimeMillis() + expiration * 1000);
+    }
+
+    /**
+     * 解析Token获取过期时间
+     * @param token
+     * @return
+     */
+    public Date getExpirationDate(String token) {
+        Date expiration;
+        try {
+            final Claims claims = parseToken(token);
+            expiration = claims.getExpiration();
+        } catch (Exception e) {
+            expiration  = null;
+        }
+        return expiration;
+    }
+
+    /**
+     * 验证Token是否过期
+     * @param token
+     * @return
+     */
+    public Boolean isTokenExpired(String token) {
+        final Date expiration = getExpirationDate(token);
+        return expiration.before(new Date());
+    }
+
+    /**
+     * 解析Token验证用户是否当前用户
+     * @param token
+     * @param info
+     * @return
+     */
+    public Boolean validateToken(String token, UserDetails info) {
+        final Claims claims = parseToken(token);
+        final String username = claims.getSubject();
+        return (username.equals(info.getUsername()) && !isTokenExpired(token));
+    }
+
+    /**
      *
      * </p>生成密钥</p>
      * @param base64Key base64编码密钥
@@ -108,6 +150,10 @@ public class JwtTokenUtil {
     }
 
     public static void main(String [] args){
+        System.err.println("test1:" +System.currentTimeMillis());
+        System.err.println("test2:" +(System.currentTimeMillis() + 180 * 1000));
+        Date date = new Date(System.currentTimeMillis() + 180 * 1000);
+        System.err.println("北京时间：" + DateUtils.formatDatetime(date));
         JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
 
         System.out.println("*************************************");
@@ -116,8 +162,8 @@ public class JwtTokenUtil {
         System.out.println("*************************************");
 
         System.err.println("parse: " + jwtTokenUtil.parseToken(token));
-        System.err.println("ExpirationDate: "+ getExpirationDate(token));
-        System.err.println("Invalid " + isTokenExpired(token));
+        System.err.println("ExpirationDate: "+ jwtTokenUtil.getExpirationDate(token));
+        System.err.println("Invalid " + jwtTokenUtil.isTokenExpired(token));
     }
 
 }

@@ -70,29 +70,22 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         final String token = header.substring(7);
-
-        try {
-            final Claims claims = jwtTokenUtil.parseToken(token);
-            String username = claims.getSubject();
-            if (!StringUtils.isBlank(username) && null == SecurityContextHolder.getContext().getAuthentication()){
-                UserDetails userDetails = springSecurityService.loadUserByUsername(username);
-                if (jwtTokenUtil.validateToken(token, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    logger.info("authenticated user " + username + ", setting security context");
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }else{
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().print("Invalid token error.");
-                    return ;
-                }
+        String username = jwtTokenUtil.getUsername(token);
+        if (!StringUtils.isBlank(username) && null == SecurityContextHolder.getContext().getAuthentication()){
+            UserDetails userDetails = springSecurityService.loadUserByUsername(username);
+            if (jwtTokenUtil.validateToken(token, userDetails)) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                logger.info("authenticated user " + username + ", setting security context");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }else{
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().print("Invalid token error.");
+                return ;
             }
-            filterChain.doFilter(request, response);
-        } catch (final SignatureException e) {
-            throw new ServletException("Invalid token error.");
         }
-
+        filterChain.doFilter(request, response);
     }
 
 }

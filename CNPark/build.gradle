@@ -71,7 +71,7 @@ subprojects {
         //compile()
         compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
         compile "org.springframework.boot:spring-boot-starter-security:1.5.4.RELEASE"
-        compile "org.springframework.security.oauth:spring-security-oauth2:1.5.4.RELEASE"
+        //compile "org.springframework.security.oauth:spring-security-oauth2:1.5.4.RELEASE"
         compile "org.springframework.boot:spring-boot-starter-data-redis:1.5.4.RELEASE"
         compile "org.springframework.security:spring-security-jwt:1.0.8.RELEASE"
         compile  "org.springframework.boot:spring-boot-starter-jdbc:1.5.4.RELEASE"

@@ -3,6 +3,7 @@ package org.springframe.listener;
 import org.springframe.domain.system.JwtUser;
 import org.springframe.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -26,7 +27,6 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         System.err.println("authentication.getName() :" + authentication.getName());
-        //String jwtToken = jwtTokenUtil.createJwtToken(authentication, 24 * 60);
         authentication.getPrincipal();
         String jwtToken = jwtTokenUtil.createToken(authentication.getName());
         response.setHeader("X-API-TOKEN", "Bearer " + jwtToken);
