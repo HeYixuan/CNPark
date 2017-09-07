@@ -3,6 +3,7 @@ package org.springframe.configure;
 import org.springframe.filter.CORSFilter;
 import org.springframe.filter.JwtAuthenticationEntryPoint;
 import org.springframe.filter.JwtAuthenticationTokenFilter;
+import org.springframe.listener.AuthenticationAccessDeniedHandler;
 import org.springframe.listener.AuthenticationFailureHandler;
 import org.springframe.listener.AuthenticationSuccessHandler;
 import org.springframe.security.SpringSecurityService;
@@ -35,6 +36,8 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler failureHandler;
     @Autowired
+    private AuthenticationAccessDeniedHandler accessDeniedHandler;
+    @Autowired
     private CORSFilter corsFilter;
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
@@ -49,16 +52,18 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/oauth/token/**").permitAll()
             .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").authenticated() //其他请求都需要登录后访问
+                .antMatchers("/**").authenticated() //其他请求都需要登录后访问
             .and()
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
                 .and().exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)
                 .authenticationEntryPoint(unauthorizedHandler)
                 // 基于token，所以不需要session
-            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

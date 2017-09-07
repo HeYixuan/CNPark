@@ -18,6 +18,9 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        super.onAuthenticationFailure(request, response, exception);
+//        response.getWriter().write(JsonMapper.INSTANCE.toJson(new ResponseEntity<String>(HttpStatus.FORBIDDEN, exception.getMessage())));
+
+        //return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED, e.getMessage());
+        //super.onAuthenticationFailure(request, response, exception);
     }
 }

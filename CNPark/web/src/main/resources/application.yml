@@ -45,12 +45,15 @@ spring:
   output:
     ansi:
       enabled: always #彩色日志
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 jwt:
   header: X-API-TOKEN
   secret: secret
   issuer: 15517551511@126.com
-  expiration: 1800   #Token有效期30分钟
+  expiration: 120   #Token有效期30分钟
 
 
 logging:
