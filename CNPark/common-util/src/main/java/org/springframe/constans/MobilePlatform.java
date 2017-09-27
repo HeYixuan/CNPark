@@ -5,7 +5,7 @@ package org.springframe.constans;
  * @fileName MobilePlatform.java
  * @package com.jd.ofit.app.common.constant
  * @description 移动端平台枚举
- * @author yujianliang@igetwell.cn
+ * @author HeYixuan
  * @date 2017年8月2日 下午3:57:58
  * @version V1.0
  */

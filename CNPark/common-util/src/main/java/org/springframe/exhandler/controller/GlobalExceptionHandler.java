@@ -37,21 +37,21 @@ public class GlobalExceptionHandler {
 
         if (e instanceof IllegalArgumentException || e instanceof MethodArgumentTypeMismatchException){
             //400 非法请求参数
-            return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<String>(HttpStatus.FORBIDDEN, e.getMessage());
         } else if (e instanceof AccessDeniedException){
             //401
-            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED, e.getMessage());
         } else if (e instanceof NoHandlerFoundException){
             //404
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND, e.getMessage());
         } else if (e instanceof BaseException){
             //服务器异常
-            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
         if (logger.isErrorEnabled()){
             logger.error("系统异常! {}", e);
         }
-        return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 }

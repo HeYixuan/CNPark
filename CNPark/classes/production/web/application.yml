@@ -1,0 +1,69 @@
+
+debug: true
+
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+  session:
+    cookie:
+      http-only: true   # 开启HttpOnly防止js脚本读取cookie信息和XSS 攻击
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+    client:
+      client-id: web-app
+      access-token-uri: http://localhost:8080/oauth/token
+      user-authorization-uri: http://localhost:8080/oauth/authorize
+
+spring:
+  application:
+    name: CNPark
+    version: 1.0
+  profiles:
+    active: dev
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 15000
+    pool:
+      max-active: 30 # 最大连接数量，默认8，能够同时建立的最大连接数
+      max-idle: 20 # 最大空闲连接数量，默认8，空闲连接数大于maxIdle时，将进行回收
+      max-wait: 1000 # 最大阻塞等待时间，默认-1
+      min-idle: 5 # 最小空闲数，默认0，低于minIdle时，将创建新的连接
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/springsecurity?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    dbcp2:
+      driver-class-name: com.mysql.jdbc.Driver
+  output:
+    ansi:
+      enabled: always #彩色日志
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+jwt:
+  header: X-API-TOKEN
+  secret: secret
+  issuer: 15517551511@126.com
+  expiration: 120   #Token有效期30分钟
+
+
+logging:
+  level:
+    root: debug
+    orgspringframework.web: DEBUG
+  config: classpath:log4j.xml   # 日志相关设置
+
+
+
+
+
+
